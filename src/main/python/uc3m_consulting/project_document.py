@@ -7,7 +7,7 @@ class ProjectDocument():
 
     def __init__(self, project_id: str, file_name):
         self.__alg = "SHA-256"
-        self.__type = "DEPOSIT"
+        self.__type = "DOCUMENT"
         self.__project_id = project_id
         self.__file_name = file_name
         justnow = datetime.now(timezone.utc)

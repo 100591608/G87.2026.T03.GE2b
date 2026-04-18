@@ -1,0 +1,317 @@
+﻿ID_TEST,INPUT_FILE,VALID,FILE_CONTENT,RESULT
+TC1,tc1_valid.json,VALID,"{
+  ""PROJECT_ID"": ""a1b2c3d4e5f60718293a4b5c6d7e8f90"",
+  ""FILENAME"": ""Ab12Cd34.pdf""
+}",1e6f6f1a89174d3f11397f806cbe981926adbb1edd0aaefd3098823e14e23134
+TC2,tc2_valid.json,VALID,"{
+  ""PROJECT_ID"": ""a1b2c3d4e5f60718293a4b5c6d7e8f90"",
+  ""FILENAME"": ""Ab12Cd34.docx""
+}",62887c5cbbb3bf13554e23698697bc6fe727f572361435073ed1a4acc68a5b79
+TC3,tc3_valid.json,VALID,"{
+  ""PROJECT_ID"": ""a1b2c3d4e5f60718293a4b5c6d7e8f90"",
+  ""FILENAME"": ""Ab12Cd34.xlsx""
+}",13d54755bc8590ce2b8699c6cbbfe86bfa2b8fcbaa25efeb76d70b08ba4a67a1
+TC4,tc4_invalid.json,INVALID,"{
+  ""PROJECT_ID"": ""a1b2c3d4e5f60718293a4b5c6d7e8f90"",
+  ""FILENAME"": ""Ab12Cd34.pdf""
+}{
+  ""PROJECT_ID"": ""a1b2c3d4e5f60718293a4b5c6d7e8f90"",
+  ""FILENAME"": ""Ab12Cd34.pdf""
+} ",The file is not JSON formatted
+TC5,tc5_invalid.json,INVALID,"""""",The file is not JSON formatted
+TC6,tc6_invalid.json,INVALID,"{{
+  ""PROJECT_ID"": ""a1b2c3d4e5f60718293a4b5c6d7e8f90"",
+  ""FILENAME"": ""Ab12Cd34.pdf""
+}",The file is not JSON formatted
+TC7,tc7_invalid.json,INVALID,"  ""PROJECT_ID"": ""a1b2c3d4e5f60718293a4b5c6d7e8f90"",
+  ""FILENAME"": ""Ab12Cd34.pdf""
+}",The file is not JSON formatted
+TC8,tc8_invalid.json,INVALID,"{
+  ""PROJECT_ID"": ""a1b2c3d4e5f60718293a4b5c6d7e8f90"",
+  ""FILENAME"": ""Ab12Cd34.pdf""
+  ""PROJECT_ID"": ""a1b2c3d4e5f60718293a4b5c6d7e8f90"",
+  ""FILENAME"": ""Ab12Cd34.pdf""
+}",The file is not JSON formatted
+TC9,tc9_invalid.json,INVALID,"{
+}",JSON does not have the expected structure
+TC10,tc10_invalid.json,INVALID,"{
+  ""PROJECT_ID"": ""a1b2c3d4e5f60718293a4b5c6d7e8f90"",
+  ""FILENAME"": ""Ab12Cd34.pdf""
+}}",The file is not JSON formatted
+TC11,tc11_invalid.json,INVALID,"{
+  ""PROJECT_ID"": ""a1b2c3d4e5f60718293a4b5c6d7e8f90"",
+  ""FILENAME"": ""Ab12Cd34.pdf""
+",The file is not JSON formatted
+TC12,tc12_invalid.json,INVALID,"{
+  ""PROJECT_ID"": ""a1b2c3d4e5f60718293a4b5c6d7e8f90""
+  ""PROJECT_ID"": ""a1b2c3d4e5f60718293a4b5c6d7e8f90"",
+  ""FILENAME"": ""Ab12Cd34.pdf""
+}",The file is not JSON formatted
+TC13,tc13_invalid.json,INVALID,"{
+  ,
+  ""FILENAME"": ""Ab12Cd34.pdf""
+}",The file is not JSON formatted
+TC14,tc14_invalid.json,INVALID,"{
+  ""PROJECT_ID"": ""a1b2c3d4e5f60718293a4b5c6d7e8f90"",,
+  ""FILENAME"": ""Ab12Cd34.pdf""
+}",The file is not JSON formatted
+TC15,tc15_invalid.json,INVALID,"{
+  ""PROJECT_ID"": ""a1b2c3d4e5f60718293a4b5c6d7e8f90""
+  ""FILENAME"": ""Ab12Cd34.pdf""
+}",The file is not JSON formatted
+TC16,tc16_invalid.json,INVALID,"{
+  ""PROJECT_ID"": ""a1b2c3d4e5f60718293a4b5c6d7e8f90"",
+  ""FILENAME"": ""Ab12Cd34.pdf""
+  ""FILENAME"": ""Ab12Cd34.pdf""
+}",The file is not JSON formatted
+TC17,tc17_invalid.json,INVALID,"{
+  ""PROJECT_ID"": ""a1b2c3d4e5f60718293a4b5c6d7e8f90"",
+}",The file is not JSON formatted
+TC18,tc18_invalid.json,INVALID,"{
+  ""PROJECT_ID""""PROJECT_ID"": ""a1b2c3d4e5f60718293a4b5c6d7e8f90"",
+  ""FILENAME"": ""Ab12Cd34.pdf""
+}",The file is not JSON formatted
+TC19,tc19_invalid.json,INVALID,"{
+  : ""a1b2c3d4e5f60718293a4b5c6d7e8f90"",
+  ""FILENAME"": ""Ab12Cd34.pdf""
+}",The file is not JSON formatted
+TC20,tc20_invalid.json,INVALID,"{
+  ""PROJECT_ID"":: ""a1b2c3d4e5f60718293a4b5c6d7e8f90"",
+  ""FILENAME"": ""Ab12Cd34.pdf""
+}",The file is not JSON formatted
+TC21,tc21_invalid.json,INVALID,"{
+  ""PROJECT_ID"" ""a1b2c3d4e5f60718293a4b5c6d7e8f90"",
+  ""FILENAME"": ""Ab12Cd34.pdf""
+}",The file is not JSON formatted
+TC22,tc22_invalid.json,INVALID,"{
+  ""PROJECT_ID"": ""a1b2c3d4e5f60718293a4b5c6d7e8f90""""a1b2c3d4e5f60718293a4b5c6d7e8f90"",
+  ""FILENAME"": ""Ab12Cd34.pdf""
+}",The file is not JSON formatted
+TC23,tc23_invalid.json,INVALID,"{
+  ""PROJECT_ID"": ,
+  ""FILENAME"": ""Ab12Cd34.pdf""
+}",The file is not JSON formatted
+TC24,tc24_invalid.json,INVALID,"{
+  ""PROJECT_ID"": ""a1b2c3d4e5f60718293a4b5c6d7e8f90"",
+  ""FILENAME""""FILENAME"": ""Ab12Cd34.pdf""
+}",The file is not JSON formatted
+TC25,tc25_invalid.json,INVALID,"{
+  ""PROJECT_ID"": ""a1b2c3d4e5f60718293a4b5c6d7e8f90"",
+  : ""Ab12Cd34.pdf""
+}",The file is not JSON formatted
+TC26,tc26_invalid.json,INVALID,"{
+  ""PROJECT_ID"": ""a1b2c3d4e5f60718293a4b5c6d7e8f90"",
+  ""FILENAME"":: ""Ab12Cd34.pdf""
+}",The file is not JSON formatted
+TC27,tc27_invalid.json,INVALID,"{
+  ""PROJECT_ID"": ""a1b2c3d4e5f60718293a4b5c6d7e8f90"",
+  ""FILENAME"" ""Ab12Cd34.pdf""
+}",The file is not JSON formatted
+TC28,tc28_invalid.json,INVALID,"{
+  ""PROJECT_ID"": ""a1b2c3d4e5f60718293a4b5c6d7e8f90"",
+  ""FILENAME"": ""Ab12Cd34.pdf""""Ab12Cd34.pdf""
+}",The file is not JSON formatted
+TC29,tc29_invalid.json,INVALID,"{
+  ""PROJECT_ID"": ""a1b2c3d4e5f60718293a4b5c6d7e8f90"",
+  ""FILENAME"":
+}",The file is not JSON formatted
+TC30,tc30_invalid.json,INVALID,"{
+  """"PROJECT_ID"": ""a1b2c3d4e5f60718293a4b5c6d7e8f90"",
+  ""FILENAME"": ""Ab12Cd34.pdf""
+}",The file is not JSON formatted
+TC31,tc31_invalid.json,INVALID,"{
+  PROJECT_ID"": ""a1b2c3d4e5f60718293a4b5c6d7e8f90"",
+  ""FILENAME"": ""Ab12Cd34.pdf""
+}",The file is not JSON formatted
+TC32,tc32_invalid.json,INVALID,"{
+  ""PROJECT_IDPROJECT_ID"": ""a1b2c3d4e5f60718293a4b5c6d7e8f90"",
+  ""FILENAME"": ""Ab12Cd34.pdf""
+}",JSON does not have the expected structure
+TC33,tc33_invalid.json,INVALID,"{
+  """": ""a1b2c3d4e5f60718293a4b5c6d7e8f90"",
+  ""FILENAME"": ""Ab12Cd34.pdf""
+}",JSON does not have the expected structure
+TC34,tc34_invalid.json,INVALID,"{
+  ""PROJECT_ID"""": ""a1b2c3d4e5f60718293a4b5c6d7e8f90"",
+  ""FILENAME"": ""Ab12Cd34.pdf""
+}",The file is not JSON formatted
+TC35,tc35_invalid.json,INVALID,"{
+  ""PROJECT_ID: ""a1b2c3d4e5f60718293a4b5c6d7e8f90"",
+  ""FILENAME"": ""Ab12Cd34.pdf""
+}",The file is not JSON formatted
+TC36,tc36_invalid.json,INVALID,"{
+  ""PROJECT_ID"": """"a1b2c3d4e5f60718293a4b5c6d7e8f90"",
+  ""FILENAME"": ""Ab12Cd34.pdf""
+}",The file is not JSON formatted
+TC37,tc37_invalid.json,INVALID,"{
+  ""PROJECT_ID"": a1b2c3d4e5f60718293a4b5c6d7e8f90"",
+  ""FILENAME"": ""Ab12Cd34.pdf""
+}",The file is not JSON formatted
+TC38,tc38_invalid.json,INVALID,"{
+  ""PROJECT_ID"": ""a1b2c3d4e5f60718293a4b5c6d7e8f90a1b2c3d4e5f60718293a4b5c6d7e8f90"",
+  ""FILENAME"": ""Ab12Cd34.pdf""
+}",JSON data has no valid values
+TC39,tc39_invalid.json,INVALID,"{
+  ""PROJECT_ID"": """",
+  ""FILENAME"": ""Ab12Cd34.pdf""
+}",JSON data has no valid values
+TC40,tc40_invalid.json,INVALID,"{
+  ""PROJECT_ID"": ""a1b2c3d4e5f60718293a4b5c6d7e8f90"""",
+  ""FILENAME"": ""Ab12Cd34.pdf""
+}",The file is not JSON formatted
+TC41,tc41_invalid.json,INVALID,"{
+  ""PROJECT_ID"": ""a1b2c3d4e5f60718293a4b5c6d7e8f90,
+  ""FILENAME"": ""Ab12Cd34.pdf""
+}",The file is not JSON formatted
+TC42,tc42_invalid.json,INVALID,"{
+  ""PROJECT_ID"": ""a1b2c3d4e5f60718293a4b5c6d7e8f90"",
+  """"FILENAME"": ""Ab12Cd34.pdf""
+}",The file is not JSON formatted
+TC43,tc43_invalid.json,INVALID,"{
+  ""PROJECT_ID"": ""a1b2c3d4e5f60718293a4b5c6d7e8f90"",
+  FILENAME"": ""Ab12Cd34.pdf""
+}",The file is not JSON formatted
+TC44,tc44_invalid.json,INVALID,"{
+  ""PROJECT_ID"": ""a1b2c3d4e5f60718293a4b5c6d7e8f90"",
+  ""FILENAMEFILENAME"": ""Ab12Cd34.pdf""
+}",JSON does not have the expected structure
+TC45,tc45_invalid.json,INVALID,"{
+  ""PROJECT_ID"": ""a1b2c3d4e5f60718293a4b5c6d7e8f90"",
+  """": ""Ab12Cd34.pdf""
+}",JSON does not have the expected structure
+TC46,tc46_invalid.json,INVALID,"{
+  ""PROJECT_ID"": ""a1b2c3d4e5f60718293a4b5c6d7e8f90"",
+  ""FILENAME"""": ""Ab12Cd34.pdf""
+}",The file is not JSON formatted
+TC47,tc47_invalid.json,INVALID,"{
+  ""PROJECT_ID"": ""a1b2c3d4e5f60718293a4b5c6d7e8f90"",
+  ""FILENAME: ""Ab12Cd34.pdf""
+}",The file is not JSON formatted
+TC48,tc48_invalid.json,INVALID,"{
+  ""PROJECT_ID"": ""a1b2c3d4e5f60718293a4b5c6d7e8f90"",
+  ""FILENAME"": """"Ab12Cd34.pdf""
+}",The file is not JSON formatted
+TC49,tc49_invalid.json,INVALID,"{
+  ""PROJECT_ID"": ""a1b2c3d4e5f60718293a4b5c6d7e8f90"",
+  ""FILENAME"": Ab12Cd34.pdf""
+}",The file is not JSON formatted
+TC50,tc50_invalid.json,INVALID,"{
+  ""PROJECT_ID"": ""a1b2c3d4e5f60718293a4b5c6d7e8f90"",
+  ""FILENAME"": ""Ab12Cd34.pdfAb12Cd34.pdf""
+}",JSON data has no valid values
+TC51,tc51_invalid.json,INVALID,"{
+  ""PROJECT_ID"": ""a1b2c3d4e5f60718293a4b5c6d7e8f90"",
+  ""FILENAME"": """"
+}",JSON data has no valid values
+TC52,tc52_invalid.json,INVALID,"{
+  ""PROJECT_ID"": ""a1b2c3d4e5f60718293a4b5c6d7e8f90"",
+  ""FILENAME"": ""Ab12Cd34.pdf""""
+}",The file is not JSON formatted
+TC53,tc53_invalid.json,INVALID,"{
+  ""PROJECT_ID"": ""a1b2c3d4e5f60718293a4b5c6d7e8f90"",
+  ""FILENAME"": ""Ab12Cd34.pdf
+}",The file is not JSON formatted
+TC54,tc54_invalid.json,INVALID,"{
+  ""PROJECT_ID"": ""a1b2c3d4e5f60718293a4b5c6d7e8f90"",
+  ""FILENAME"": ""Ab12Cd34Ab12Cd34.pdf""
+}",JSON data has no valid values
+TC55,tc55_invalid.json,INVALID,"{
+  ""PROJECT_ID"": ""a1b2c3d4e5f60718293a4b5c6d7e8f90"",
+  ""FILENAME"": "".pdf""
+}",JSON data has no valid values
+TC56,tc56_invalid.json,INVALID,"{
+  ""PROJECT_ID"": ""a1b2c3d4e5f60718293a4b5c6d7e8f90"",
+  ""FILENAME"": ""Ab12Cd34.pdf.pdf""
+}",JSON data has no valid values
+TC57,tc57_invalid.json,INVALID,"{
+  ""PROJECT_ID"": ""a1b2c3d4e5f60718293a4b5c6d7e8f90"",
+  ""FILENAME"": ""Ab12Cd34""
+}",JSON data has no valid values
+TC58,tc58_invalid.json,INVALID,"[
+  ""PROJECT_ID"": ""a1b2c3d4e5f60718293a4b5c6d7e8f90"",
+  ""FILENAME"": ""Ab12Cd34.pdf""
+}",The file is not JSON formatted
+TC59,tc59_invalid.json,INVALID,"{
+  ""PROJECT_ID"": ""a1b2c3d4e5f60718293a4b5c6d7e8f90"",
+  ""FILENAME"": ""Ab12Cd34.pdf""
+]",The file is not JSON formatted
+TC60,tc60_invalid.json,INVALID,"{
+  ""PROJECT_ID"": ""a1b2c3d4e5f60718293a4b5c6d7e8f90"";
+  ""FILENAME"": ""Ab12Cd34.pdf""
+}",The file is not JSON formatted
+TC61,tc61_invalid.json,INVALID,"{
+  ""PROJECT_ID""; ""a1b2c3d4e5f60718293a4b5c6d7e8f90"",
+  ""FILENAME"": ""Ab12Cd34.pdf""
+}",The file is not JSON formatted
+TC62,tc62_invalid.json,INVALID,"{
+  ""PROJECT_ID"": ""a1b2c3d4e5f60718293a4b5c6d7e8f90"",
+  ""FILENAME""; ""Ab12Cd34.pdf""
+}",The file is not JSON formatted
+TC63,tc63_invalid.json,INVALID,"{
+  'PROJECT_ID"": ""a1b2c3d4e5f60718293a4b5c6d7e8f90"",
+  ""FILENAME"": ""Ab12Cd34.pdf""
+}",The file is not JSON formatted
+TC64,tc64_invalid.json,INVALID,"{
+  ""PROJECX_ID"": ""a1b2c3d4e5f60718293a4b5c6d7e8f90"",
+  ""FILENAME"": ""Ab12Cd34.pdf""
+}",JSON does not have the expected structure
+TC65,tc65_invalid.json,INVALID,"{
+  ""PROJECT_ID': ""a1b2c3d4e5f60718293a4b5c6d7e8f90"",
+  ""FILENAME"": ""Ab12Cd34.pdf""
+}",The file is not JSON formatted
+TC66,tc66_invalid.json,INVALID,"{
+  ""PROJECT_ID"": 'a1b2c3d4e5f60718293a4b5c6d7e8f90"",
+  ""FILENAME"": ""Ab12Cd34.pdf""
+}",The file is not JSON formatted
+TC67,tc67_invalid.json,INVALID,"{
+  ""PROJECT_ID"": ""A1b2c3d4e5f60718293a4b5c6d7e8f90"",
+  ""FILENAME"": ""Ab12Cd34.pdf""
+}",JSON data has no valid values
+TC68,tc68_invalid.json,INVALID,"{
+  ""PROJECT_ID"": ""a1b2c3d4e5f60718293a4b5c6d7e8f90',
+  ""FILENAME"": ""Ab12Cd34.pdf""
+}",The file is not JSON formatted
+TC69,tc69_invalid.json,INVALID,"{
+  ""PROJECT_ID"": ""a1b2c3d4e5f60718293a4b5c6d7e8f90"",
+  'FILENAME"": ""Ab12Cd34.pdf""
+}",The file is not JSON formatted
+TC70,tc70_invalid.json,INVALID,"{
+  ""PROJECT_ID"": ""a1b2c3d4e5f60718293a4b5c6d7e8f90"",
+  ""FILENAMX"": ""Ab12Cd34.pdf""
+}",JSON does not have the expected structure
+TC71,tc71_invalid.json,INVALID,"{
+  ""PROJECT_ID"": ""a1b2c3d4e5f60718293a4b5c6d7e8f90"",
+  ""FILENAME': ""Ab12Cd34.pdf""
+}",The file is not JSON formatted
+TC72,tc72_invalid.json,INVALID,"{
+  ""PROJECT_ID"": ""a1b2c3d4e5f60718293a4b5c6d7e8f90"",
+  ""FILENAME"": 'Ab12Cd34.pdf""
+}",The file is not JSON formatted
+TC73,tc73_invalid.json,INVALID,"{
+  ""PROJECT_ID"": ""a1b2c3d4e5f60718293a4b5c6d7e8f90"",
+  ""FILENAME"": ""Ab12Cd34.pdf'
+}",The file is not JSON formatted
+TC74,tc74_invalid.json,INVALID,"{
+  ""PROJECT_ID"": ""a1b2c3d4e5f60718293a4b5c6d7e8f90"",
+  ""FILENAME"": ""#b12Cd34.pdf""
+}",JSON data has no valid values
+TC75,tc75_invalid.json,INVALID,"{
+  ""PROJECT_ID"": ""a1b2c3d4e5f60718293a4b5c6d7e8f90"",
+  ""FILENAME"": ""Ab12Cd34.pdg""
+}",JSON data has no valid values
+TC76,tc76_invalid.json,INVALID,"{
+  ""PROJECT_ID"": ""a1b2c3d4e5f60718293a4b5c6d7e8f90"",
+  ""FILENAME"": ""Ab12Cd34.docx.docx""
+}",JSON data has no valid values
+TC77,tc77_invalid.json,INVALID,"{
+  ""PROJECT_ID"": ""a1b2c3d4e5f60718293a4b5c6d7e8f90"",
+  ""FILENAME"": ""Ab12Cd34.docy""
+}",JSON data has no valid values
+TC78,tc78_invalid.json,INVALID,"{
+  ""PROJECT_ID"": ""a1b2c3d4e5f60718293a4b5c6d7e8f90"",
+  ""FILENAME"": ""Ab12Cd34.xlsx.xlsx""
+}",JSON data has no valid values
+TC79,tc79_invalid.json,INVALID,"{
+  ""PROJECT_ID"": ""a1b2c3d4e5f60718293a4b5c6d7e8f90"",
+  ""FILENAME"": ""Ab12Cd34.xlsy""
+}",JSON data has no valid values
