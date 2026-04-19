@@ -73,12 +73,12 @@ class TestRegisterDocumentTest(TestCase):
 
                         found = False
                         for document in my_data:
-                            if document["file_signature"] == sha_256_output:
+                            if document["document_signature"] == sha_256_output:
                                 found = True
                                 self.assertEqual(document["project_id"], input_data["PROJECT_ID"])
                                 self.assertEqual(document["file_name"], input_data["FILENAME"])
                                 self.assertEqual(document["alg"], "SHA-256")
-                                self.assertEqual(document["typ"], "DOCUMENT")
+                                self.assertEqual(document["type"], "DOCUMENT")
                         self.assertTrue(found)
 
                 else:
