@@ -2,6 +2,7 @@
 import json
 from uc3m_consulting.project_document import ProjectDocument
 from uc3m_consulting.enterprise_management_exception import EnterpriseManagementException
+import re
 
 ALL_DOCUMENTS_PATH = "../../unittest/python/json_files/all_documents.json"
 
@@ -21,8 +22,13 @@ class EnterpriseManager:
         try:
             with open(input_file, "r", encoding="utf-8", newline="") as file:
                 input_data = json.load(file)
+        except FileNotFoundError as ex:
+            raise EnterpriseManagementException("Input file not found") from ex
         except json.JSONDecodeError as ex:
             raise EnterpriseManagementException("The file is not JSON formatted") from ex
+
+        if type(input_data) is not dict:
+            raise EnterpriseManagementException("The file is not JSON formatted")
 
         document = ProjectDocument(input_data["PROJECT_ID"], input_data["FILENAME"])
 
