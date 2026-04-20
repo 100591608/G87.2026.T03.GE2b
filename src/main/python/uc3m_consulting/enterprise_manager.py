@@ -39,6 +39,9 @@ class EnterpriseManager:
         if not re.fullmatch(r"^[a-f0-9]{32}$", str(project_id)):
             raise EnterpriseManagementException("JSON data has no valid values")
 
+        if not re.fullmatch(r"^[a-zA-Z0-9]{8}\.(pdf|docx|xlsx)$", str(filename)):
+            raise EnterpriseManagementException("JSON data has no valid values")
+
         document = ProjectDocument(input_data["PROJECT_ID"], input_data["FILENAME"])
 
         try:
