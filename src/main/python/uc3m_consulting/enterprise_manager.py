@@ -30,6 +30,12 @@ class EnterpriseManager:
         if type(input_data) is not dict:
             raise EnterpriseManagementException("The file is not JSON formatted")
 
+        try:
+            project_id = input_data["PROJECT_ID"]
+            filename = input_data["FILENAME"]
+        except KeyError as ex:
+            raise EnterpriseManagementException("JSON does not have the expected structure") from ex
+
         document = ProjectDocument(input_data["PROJECT_ID"], input_data["FILENAME"])
 
         try:
