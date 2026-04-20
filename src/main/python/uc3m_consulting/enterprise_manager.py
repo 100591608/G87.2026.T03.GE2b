@@ -36,6 +36,9 @@ class EnterpriseManager:
         except KeyError as ex:
             raise EnterpriseManagementException("JSON does not have the expected structure") from ex
 
+        if not re.fullmatch(r"^[a-f0-9]{32}$", str(project_id)):
+            raise EnterpriseManagementException("JSON data has no valid values")
+
         document = ProjectDocument(input_data["PROJECT_ID"], input_data["FILENAME"])
 
         try:
