@@ -2,7 +2,7 @@
 import unittest
 import csv
 import json
-import os.path
+import os
 import hashlib
 from unittest import TestCase
 from os import remove, makedirs
@@ -12,9 +12,12 @@ from uc3m_consulting import (
     EnterpriseManagementException
 )
 
-JSON_FILES_PATH = "json_files/"
-GENERATED_INPUTS_PATH = JSON_FILES_PATH + "generated_inputs/"
-ALL_DOCUMENTS_STORE_FILE = JSON_FILES_PATH + "all_documents.json"
+THIS_TEST_FILE = os.path.abspath(__file__)
+TESTS_DIR = os.path.dirname(THIS_TEST_FILE)
+
+JSON_FILES_PATH = os.path.join(TESTS_DIR, "json_files") + os.sep
+GENERATED_INPUTS_PATH = os.path.join(JSON_FILES_PATH, "generated_inputs") + os.sep
+ALL_DOCUMENTS_STORE_FILE = os.path.join(JSON_FILES_PATH, "all_documents.json")
 
 class TestRegisterDocumentTest(TestCase):
     """Class for testing register_document"""
