@@ -173,6 +173,29 @@ class TestRegisterDocumentTest(TestCase):
         hash_new = self.get_file_hash()
         self.assertEqual(hash_new, hash_original)
 
+    @freeze_time("2026/03/22 13:00:00")
+    def test_TC82(self):
+        """Path 1_4_end"""
+        input_file = GENERATED_INPUTS_PATH + "tc82_invalid_json.json"
+        file_content = """{
+  "PROJECT_ID": "a1b2c3d4e5f60718293a4b5c6d7e8f90",
+  "FILENAME": "Ab12Cd34.pdf"
+"""
+        self.write_input_file(input_file, file_content)
+
+        mngr = EnterpriseManager()
+        hash_original = self.get_file_hash()
+
+        with self.assertRaises(EnterpriseManagementException) as c_m:
+            mngr.register_document(input_file)
+        self.assertEqual(c_m.exception.message, "The file is not JSON formatted")
+
+        hash_new = self.get_file_hash()
+        self.assertEqual(hash_new, hash_original)
+
+        if os.path.exists(input_file):
+            remove(input_file)
+
 
 if __name__ == '__main__':
     unittest.main()
