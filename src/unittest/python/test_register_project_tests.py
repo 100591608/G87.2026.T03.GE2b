@@ -334,6 +334,34 @@ class TestRegisterDocumentTest(TestCase):
         if os.path.exists(input_file):
             remove(input_file)
 
+    @freeze_time("2026/03/22 13:00:00")
+    @patch("uc3m_consulting.enterprise_manager.ProjectDocument", side_effect=Exception("forced error"))
+    def test_TC89(self, _mock_project_document):
+        """Path 1_2_5_7_9_10_11_13_15_17_18_20_end"""
+        input_file = GENERATED_INPUTS_PATH + "tc89_internal_error_constructor.json"
+        file_content = """{
+  "PROJECT_ID": "a1b2c3d4e5f60718293a4b5c6d7e8f90",
+  "FILENAME": "Ab12Cd34.pdf"
+}"""
+        self.write_input_file(input_file, file_content)
+
+        mngr = EnterpriseManager()
+        hash_original = self.get_file_hash()
+
+        with self.assertRaises(EnterpriseManagementException) as c_m:
+            mngr.register_document(input_file)
+        self.assertEqual(
+            c_m.exception.message,
+            "Internal processing error when getting the file_signature"
+        )
+
+        hash_new = self.get_file_hash()
+        self.assertEqual(hash_new, hash_original)
+
+        if os.path.exists(input_file):
+            remove(input_file)
+
+
 
 
 if __name__ == '__main__':
