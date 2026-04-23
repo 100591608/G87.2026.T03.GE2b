@@ -158,5 +158,21 @@ class TestRegisterDocumentTest(TestCase):
         if os.path.exists(input_file):
             remove(input_file)
 
+    @freeze_time("2026/03/22 13:00:00")
+    def test_TC81(self):
+        """Path 1_3_end"""
+        input_file = GENERATED_INPUTS_PATH + "tc81_missing_file.json"
+
+        mngr = EnterpriseManager()
+        hash_original = self.get_file_hash()
+
+        with self.assertRaises(EnterpriseManagementException) as c_m:
+            mngr.register_document(input_file)
+        self.assertEqual(c_m.exception.message, "Input file not found")
+
+        hash_new = self.get_file_hash()
+        self.assertEqual(hash_new, hash_original)
+
+
 if __name__ == '__main__':
     unittest.main()
