@@ -391,8 +391,37 @@ class TestRegisterDocumentTest(TestCase):
         if os.path.exists(input_file):
             remove(input_file)
 
+    @freeze_time("2026/03/22 13:00:00")
+    def test_TC91(self):
+        """Path 1_2_5_7_9_10_11_13_15_17_18_19_21_23_24_25_26_end"""
+        input_file = GENERATED_INPUTS_PATH + "tc91_valid_no_store.json"
+        file_content = """{
+  "PROJECT_ID": "a1b2c3d4e5f60718293a4b5c6d7e8f90",
+  "FILENAME": "Ab12Cd34.pdf"
+}"""
+        self.write_input_file(input_file, file_content)
 
+        mngr = EnterpriseManager()
+        sha_256_output = mngr.register_document(input_file)
+        self.assertEqual(
+            "699f631976b25795e55646d860d4cc94c17c830864f97d56b8921ab2e09765ff",
+            sha_256_output
+        )
 
+        my_data = self.read_file()
+        input_data = json.loads(file_content)
+
+        found = False
+        for document in my_data:
+            if document["document_signature"] == sha_256_output:
+                found = True
+                self.assertEqual(document["project_id"], input_data["PROJECT_ID"])
+                self.assertEqual(document["file_name"], input_data["FILENAME"])
+                self.assertEqual(document["alg"], "SHA-256")
+        self.assertTrue(found)
+
+        if os.path.exists(input_file):
+            remove(input_file)
 
 if __name__ == '__main__':
     unittest.main()
