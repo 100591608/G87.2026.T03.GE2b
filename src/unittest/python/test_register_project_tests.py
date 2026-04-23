@@ -5,6 +5,7 @@ import json
 import os
 import hashlib
 from unittest import TestCase
+from unittest.mock import patch, PropertyMock
 from os import remove, makedirs
 from freezegun import freeze_time
 from uc3m_consulting import (
@@ -110,6 +111,317 @@ class TestRegisterDocumentTest(TestCase):
                 if os.path.exists(input_file):
                     remove(input_file)
 
+    @staticmethod
+    def get_file_hash():
+        """Get hash of all_documents.json"""
+        if os.path.isfile(ALL_DOCUMENTS_STORE_FILE):
+            with open(ALL_DOCUMENTS_STORE_FILE, "r", encoding="utf-8", newline="") as file:
+                return hashlib.md5(str(file).encode()).hexdigest()
+        return ""
+
+    @staticmethod
+    def create_store_file():
+        """Create empty all_documents.json file"""
+        with open(ALL_DOCUMENTS_STORE_FILE, "w", encoding="utf-8", newline="") as file:
+            json.dump([], file, indent=2)
+
+    @freeze_time("2026/03/22 13:00:00")
+    def test_TC80(self):
+        """Path 1_2_5_7_9_10_11_13_15_17_18_19_21_22_24_25_26_end"""
+        input_file = GENERATED_INPUTS_PATH + "tc80_valid_existing_store.json"
+        file_content = """{
+  "PROJECT_ID": "a1b2c3d4e5f60718293a4b5c6d7e8f90",
+  "FILENAME": "Ab12Cd34.pdf"
+}"""
+        self.write_input_file(input_file, file_content)
+        self.create_store_file()
+
+        mngr = EnterpriseManager()
+        sha_256_output = mngr.register_document(input_file)
+        self.assertEqual(
+            "699f631976b25795e55646d860d4cc94c17c830864f97d56b8921ab2e09765ff",
+            sha_256_output
+        )
+
+        my_data = self.read_file()
+        input_data = json.loads(file_content)
+
+        found = False
+        for document in my_data:
+            if document["document_signature"] == sha_256_output:
+                found = True
+                self.assertEqual(document["project_id"], input_data["PROJECT_ID"])
+                self.assertEqual(document["file_name"], input_data["FILENAME"])
+                self.assertEqual(document["alg"], "SHA-256")
+        self.assertTrue(found)
+
+        if os.path.exists(input_file):
+            remove(input_file)
+
+    @freeze_time("2026/03/22 13:00:00")
+    def test_TC81(self):
+        """Path 1_3_end"""
+        input_file = GENERATED_INPUTS_PATH + "tc81_missing_file.json"
+
+        mngr = EnterpriseManager()
+        hash_original = self.get_file_hash()
+
+        with self.assertRaises(EnterpriseManagementException) as c_m:
+            mngr.register_document(input_file)
+        self.assertEqual(c_m.exception.message, "Input file not found")
+
+        hash_new = self.get_file_hash()
+        self.assertEqual(hash_new, hash_original)
+
+    @freeze_time("2026/03/22 13:00:00")
+    def test_TC82(self):
+        """Path 1_4_end"""
+        input_file = GENERATED_INPUTS_PATH + "tc82_invalid_json.json"
+        file_content = """{
+  "PROJECT_ID": "a1b2c3d4e5f60718293a4b5c6d7e8f90",
+  "FILENAME": "Ab12Cd34.pdf"
+"""
+        self.write_input_file(input_file, file_content)
+
+        mngr = EnterpriseManager()
+        hash_original = self.get_file_hash()
+
+        with self.assertRaises(EnterpriseManagementException) as c_m:
+            mngr.register_document(input_file)
+        self.assertEqual(c_m.exception.message, "The file is not JSON formatted")
+
+        hash_new = self.get_file_hash()
+        self.assertEqual(hash_new, hash_original)
+
+        if os.path.exists(input_file):
+            remove(input_file)
+
+    @freeze_time("2026/03/22 13:00:00")
+    def test_TC83(self):
+        """Path 1_2_5_6_end"""
+        input_file = GENERATED_INPUTS_PATH + "tc83_not_dict.json"
+        file_content = """[
+  "a1b2c3d4e5f60718293a4b5c6d7e8f90",
+  "Ab12Cd34.pdf"
+]"""
+        self.write_input_file(input_file, file_content)
+
+        mngr = EnterpriseManager()
+        hash_original = self.get_file_hash()
+
+        with self.assertRaises(EnterpriseManagementException) as c_m:
+            mngr.register_document(input_file)
+        self.assertEqual(c_m.exception.message, "The file is not JSON formatted")
+
+        hash_new = self.get_file_hash()
+        self.assertEqual(hash_new, hash_original)
+
+        if os.path.exists(input_file):
+            remove(input_file)
+
+    @freeze_time("2026/03/22 13:00:00")
+    def test_TC84(self):
+        """Path 1_2_5_7_8_end"""
+        input_file = GENERATED_INPUTS_PATH + "tc84_wrong_structure.json"
+        file_content = """{
+  "PROJECT_ID": "a1b2c3d4e5f60718293a4b5c6d7e8f90",
+  "NAME": "Ab12Cd34.pdf"
+}"""
+        self.write_input_file(input_file, file_content)
+
+        mngr = EnterpriseManager()
+        hash_original = self.get_file_hash()
+
+        with self.assertRaises(EnterpriseManagementException) as c_m:
+            mngr.register_document(input_file)
+        self.assertEqual(c_m.exception.message, "JSON does not have the expected structure")
+
+        hash_new = self.get_file_hash()
+        self.assertEqual(hash_new, hash_original)
+
+        if os.path.exists(input_file):
+            remove(input_file)
+
+    @freeze_time("2026/03/22 13:00:00")
+    def test_TC85(self):
+        """Path 1_2_5_7_9_10_12_end"""
+        input_file = GENERATED_INPUTS_PATH + "tc85_project_id_not_string.json"
+        file_content = """{
+  "PROJECT_ID": 12345,
+  "FILENAME": "Ab12Cd34.pdf"
+}"""
+        self.write_input_file(input_file, file_content)
+
+        mngr = EnterpriseManager()
+        hash_original = self.get_file_hash()
+
+        with self.assertRaises(EnterpriseManagementException) as c_m:
+            mngr.register_document(input_file)
+        self.assertEqual(c_m.exception.message, "JSON data has no valid values")
+
+        hash_new = self.get_file_hash()
+        self.assertEqual(hash_new, hash_original)
+
+        if os.path.exists(input_file):
+            remove(input_file)
+
+    @freeze_time("2026/03/22 13:00:00")
+    def test_TC86(self):
+        """Path 1_2_5_7_9_10_11_12_end"""
+        input_file = GENERATED_INPUTS_PATH + "tc86_filename_not_string.json"
+        file_content = """{
+  "PROJECT_ID": "a1b2c3d4e5f60718293a4b5c6d7e8f90",
+  "FILENAME": 12345
+}"""
+        self.write_input_file(input_file, file_content)
+
+        mngr = EnterpriseManager()
+        hash_original = self.get_file_hash()
+
+        with self.assertRaises(EnterpriseManagementException) as c_m:
+            mngr.register_document(input_file)
+        self.assertEqual(c_m.exception.message, "JSON data has no valid values")
+
+        hash_new = self.get_file_hash()
+        self.assertEqual(hash_new, hash_original)
+
+        if os.path.exists(input_file):
+            remove(input_file)
+
+    @freeze_time("2026/03/22 13:00:00")
+    def test_TC87(self):
+        """Path 1_2_5_7_9_10_11_13_14_end"""
+        input_file = GENERATED_INPUTS_PATH + "tc87_invalid_project_id.json"
+        file_content = """{
+  "PROJECT_ID": "A1b2c3d4e5f60718293a4b5c6d7e8f90",
+  "FILENAME": "Ab12Cd34.pdf"
+}"""
+        self.write_input_file(input_file, file_content)
+
+        mngr = EnterpriseManager()
+        hash_original = self.get_file_hash()
+
+        with self.assertRaises(EnterpriseManagementException) as c_m:
+            mngr.register_document(input_file)
+        self.assertEqual(c_m.exception.message, "JSON data has no valid values")
+
+        hash_new = self.get_file_hash()
+        self.assertEqual(hash_new, hash_original)
+
+        if os.path.exists(input_file):
+            remove(input_file)
+
+    @freeze_time("2026/03/22 13:00:00")
+    def test_TC88(self):
+        """Path 1_2_5_7_9_10_11_13_15_16_end"""
+        input_file = GENERATED_INPUTS_PATH + "tc88_invalid_filename.json"
+        file_content = """{
+  "PROJECT_ID": "a1b2c3d4e5f60718293a4b5c6d7e8f90",
+  "FILENAME": "Ab12Cd3.pdf"
+}"""
+        self.write_input_file(input_file, file_content)
+
+        mngr = EnterpriseManager()
+        hash_original = self.get_file_hash()
+
+        with self.assertRaises(EnterpriseManagementException) as c_m:
+            mngr.register_document(input_file)
+        self.assertEqual(c_m.exception.message, "JSON data has no valid values")
+
+        hash_new = self.get_file_hash()
+        self.assertEqual(hash_new, hash_original)
+
+        if os.path.exists(input_file):
+            remove(input_file)
+
+    @freeze_time("2026/03/22 13:00:00")
+    @patch("uc3m_consulting.enterprise_manager.ProjectDocument", side_effect=Exception("forced error"))
+    def test_TC89(self, _mock_project_document):
+        """Path 1_2_5_7_9_10_11_13_15_17_18_20_end"""
+        input_file = GENERATED_INPUTS_PATH + "tc89_internal_error_constructor.json"
+        file_content = """{
+  "PROJECT_ID": "a1b2c3d4e5f60718293a4b5c6d7e8f90",
+  "FILENAME": "Ab12Cd34.pdf"
+}"""
+        self.write_input_file(input_file, file_content)
+
+        mngr = EnterpriseManager()
+        hash_original = self.get_file_hash()
+
+        with self.assertRaises(EnterpriseManagementException) as c_m:
+            mngr.register_document(input_file)
+        self.assertEqual(
+            c_m.exception.message,
+            "Internal processing error when getting the file_signature"
+        )
+
+        hash_new = self.get_file_hash()
+        self.assertEqual(hash_new, hash_original)
+
+        if os.path.exists(input_file):
+            remove(input_file)
+
+    @freeze_time("2026/03/22 13:00:00")
+    @patch("uc3m_consulting.enterprise_manager.ProjectDocument")
+    def test_TC90(self, mock_project_document):
+        """Path 1_2_5_7_9_10_11_13_15_17_18_19_20_end"""
+        input_file = GENERATED_INPUTS_PATH + "tc90_internal_error_signature.json"
+        file_content = """{
+  "PROJECT_ID": "a1b2c3d4e5f60718293a4b5c6d7e8f90",
+  "FILENAME": "Ab12Cd34.pdf"
+}"""
+        self.write_input_file(input_file, file_content)
+
+        mock_instance = mock_project_document.return_value
+        type(mock_instance).document_signature = PropertyMock(side_effect=Exception("forced error"))
+
+        mngr = EnterpriseManager()
+        hash_original = self.get_file_hash()
+
+        with self.assertRaises(EnterpriseManagementException) as c_m:
+            mngr.register_document(input_file)
+        self.assertEqual(
+            c_m.exception.message,
+            "Internal processing error when getting the file_signature"
+        )
+
+        hash_new = self.get_file_hash()
+        self.assertEqual(hash_new, hash_original)
+
+        if os.path.exists(input_file):
+            remove(input_file)
+
+    @freeze_time("2026/03/22 13:00:00")
+    def test_TC91(self):
+        """Path 1_2_5_7_9_10_11_13_15_17_18_19_21_23_24_25_26_end"""
+        input_file = GENERATED_INPUTS_PATH + "tc91_valid_no_store.json"
+        file_content = """{
+  "PROJECT_ID": "a1b2c3d4e5f60718293a4b5c6d7e8f90",
+  "FILENAME": "Ab12Cd34.pdf"
+}"""
+        self.write_input_file(input_file, file_content)
+
+        mngr = EnterpriseManager()
+        sha_256_output = mngr.register_document(input_file)
+        self.assertEqual(
+            "699f631976b25795e55646d860d4cc94c17c830864f97d56b8921ab2e09765ff",
+            sha_256_output
+        )
+
+        my_data = self.read_file()
+        input_data = json.loads(file_content)
+
+        found = False
+        for document in my_data:
+            if document["document_signature"] == sha_256_output:
+                found = True
+                self.assertEqual(document["project_id"], input_data["PROJECT_ID"])
+                self.assertEqual(document["file_name"], input_data["FILENAME"])
+                self.assertEqual(document["alg"], "SHA-256")
+        self.assertTrue(found)
+
+        if os.path.exists(input_file):
+            remove(input_file)
 
 if __name__ == '__main__':
     unittest.main()
